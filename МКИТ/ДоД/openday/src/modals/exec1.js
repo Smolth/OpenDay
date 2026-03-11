@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import '../App.css';
 
-const Exec1 = ({ isOpen, onClose }) => {
+const TypeText = ({ isOpen, onClose }) => {
     const [text, setText] = useState('');
     const [textToType, setTextToType] = useState(["Пакет попал не к тому адресату! Нужно срочно настроить новый маршрут, пока никто не заметил. У вас есть 35 секунд для перенастройки маршрутизации!", "Нажмите кнопку старта для начала настройки и введите нужную команду."]);
     const [start, setStart] = useState(0);
@@ -123,4 +123,4 @@ const Exec1 = ({ isOpen, onClose }) => {
     );
 };
 
-export default Exec1;
+export default TypeText;
