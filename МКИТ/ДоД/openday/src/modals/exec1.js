@@ -3,29 +3,33 @@ import '../App.css';
 
 const Exec1 = ({ isOpen, onClose }) => {
     const [text, setText] = useState('');
-    const [start, setStart] = useState(false);
-    const [result, setResult] = useState("");
-    const [timer, setTimer] = useState(15);
+    const [textToType, setTextToType] = useState(["Пакет попал не к тому адресату! Нужно срочно настроить новый маршрут, пока никто не заметил. У вас есть 35 секунд для перенастройки маршрутизации!", "Нажмите кнопку старта для начала настройки и введите нужную команду."]);
+    const [start, setStart] = useState(0);
+    const [result, setResult] = useState('');
+    const [timer, setTimer] = useState(35);
     const [timeInterval, setTimeInterval] = useState(null);
-    const [success, setSuccess] = useState(false);
+    const [buttonText, setButtonText] = useState("Старт");
 
-    const textToType = "Настройка маршрутизации пакета: 1) Включить IP forwarding: sysctl -w net.ipv4.ip_forward=1. 2) Добавить статический маршрут: ip route add 192.168.2.0/24 via 192.168.1.1 dev eth1. 3) Для NAT: iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE. 4) Сохранить правила: service iptables save. 5) Проверить: ip route show, traceroute 192.168.2.10. Готово — пакет маршрутизируется через указанный шлюз!";
 
-    const wordCount = textToType.split(" ").length;
+    const allText = [["1) Включите IP forwarding.", "sysctl -w net.ipv4.ip_forward=1"], ["2) Добавьте статический маршрут.", "ip route add 192.168.2.0/24 via 192.168.1.1 dev eth1"], ["3) Для добавления NAT.", "iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE"], ["4) Сохраните введённые правила.", "service iptables save"], ["5) Проверьте результат.", "ip route show, traceroute 192.168.2.10"]];
 
     useEffect(() => {
         if (timer === 0) {
             clearInterval(timeInterval);
-            setStart(false);
             setTimeInterval(null);
 
-            const typedWords = text.split(" ").filter(word => word !== "").length;
-            const words = typedWords;
-            if (words < 60) {
-                setResult(`Результат: ${words} слов из ${wordCount}. Пакет застрял в пути(`);
+            if (text === textToType[1]) {
+                setResult("Ура! Пакет нашёл новый путь и продолжает движение");
+                if (start === 5) {
+                    setButtonText("Готово — пакет маршрутизируется через указанный шлюз!")
+                } else {
+                    setButtonText("Продолжить настройку")
+                }
             } else {
-                setResult(`Результат: ${words} слов из ${wordCount}. "Ура! Пакет нашёл новый путь и продолжает движение"}`);
-                setSuccess(true)
+                setResult(`Неверно. Пакет застрял в пути и придётся начать всё заново...`);
+                setStart(0);
+                setTextToType(["Нужно срочно настроить новый маршрут, пока никто не заметил. У вас есть 35 секунд для перенастройки маршрутизации!", "Нажмите кнопку старта для начала настройки и введите нужную команду."]);
+                setButtonText("Начать снова")
             }
         }
     }, [timer, timeInterval]);
@@ -45,7 +49,11 @@ const Exec1 = ({ isOpen, onClose }) => {
             clearInterval(timeInterval);
         }
 
-        setTimer(15);
+        setText('');
+        setStart(start + 1);
+        setTextToType(allText[start]);
+        setTimer(35);
+
 
         const interval = setInterval(() => {
             setTimer(prevTimer => {
@@ -65,16 +73,13 @@ const Exec1 = ({ isOpen, onClose }) => {
             clearInterval(timeInterval);
             setTimeInterval(null);
         }
-        setStart(false);
-        setTimer(15);
+        setStart(0);
+        setTimer(35);
         setText('');
+        setTextToType(["Пакет попал не к тому адресату! Нужно срочно настроить новый маршрут, пока никто не заметил. У вас есть 35 секунд для перенастройки маршрутизации!", "Нажмите кнопку старта для начала настройки и введите нужную команду."]);
         setResult('');
         onClose();
-    };
-
-    const handleStart = () => {
-        setStart(true);
-        startTimer();
+        setButtonText("Старт")
     };
 
     return (
@@ -85,12 +90,12 @@ const Exec1 = ({ isOpen, onClose }) => {
                 <h2 className="modal-title">Задание</h2>
 
                 <div className="modal-question" onCopy={(e) => e.preventDefault()}>
-                    <p>Пакет попал не к тому адресату! Нужно срочно настроить новый маршрут, пока никто не заметил. У вас есть 30 секунд для перенастройки маршрутизации!</p>
-                    <p>Нажмите кнопку старта и введите в поле следующий текст: "{textToType}"</p>
+                    <p>{textToType[0]}</p>
+                    <p><span>{start !== 0 && "команда для ввода: "}</span>{textToType[1]}</p>
                 </div>
 
                 <section>
-                    {start ? (
+                    {start > 0 ? (
                         <textarea
                             value={text}
                             onChange={(e) => setText(e.target.value)}
@@ -106,14 +111,13 @@ const Exec1 = ({ isOpen, onClose }) => {
                     Оставшееся время: {timer > 0 ? timer : 0}
                 </span>
 
-                {!start && !success && (
-                    <button
-                        className="submit-button"
-                        onClick={handleStart}
-                    >
-                        Старт
-                    </button>
-                )}
+                {<button
+                    className="submit-button"
+                    onClick={startTimer}
+                >
+                    {buttonText}
+                </button>}
+
             </div>
         </div>
     );
