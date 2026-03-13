@@ -59,7 +59,7 @@ const Boss = ({ isOpen, onClose }) => {
                 ctx.lineWidth = 2;
                 ctx.strokeRect(cellX + 2, cellY + 2, cellSize - 4, cellSize - 4);
             } else {
-                // Промах - синий круг
+                // Промах
                 ctx.fillStyle = "#00f";
                 ctx.beginPath();
                 ctx.arc(cellX + cellSize / 2, cellY + cellSize / 2, 8, 0, 2 * Math.PI);

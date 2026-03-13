@@ -1,17 +1,23 @@
 
 import './App.css';
-import React, { useState } from 'react';
+import { useState } from 'react';
 import QuestionModal from './modals/question';
 import TypeText from './modals/exec1';
 import Boss from './modals/boss';
 import FindSecretModal from './modals/exec2';
 import CenterDivModal from './modals/exec3';
+import FindBug from './modals/exec4';
+import FindBug2 from './modals/exec5';
+import FindBug3 from './modals/exec6';
 
 function App() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isTestOpen, setIsTestOpen] = useState(false);
   const [isTest2Open, setIsTest2Open] = useState(false);
   const [isTest3Open, setIsTest3Open] = useState(false);
+  const [isTest4Open, setIsTest4Open] = useState(false);
+  const [isTest5Open, setIsTest5Open] = useState(false);
+  const [isTest6Open, setIsTest6Open] = useState(false);
   const [isBossOpen, setIsBossOpen] = useState(false);
 
   const questionData = [{
@@ -85,6 +91,33 @@ function App() {
       <CenterDivModal
         isOpen={isTest3Open}
         onClose={() => setIsTest3Open(false)}
+      />
+
+      <button onClick={() => setIsTest4Open(true)}>
+        Открыть 4 задание
+      </button>
+
+      <FindBug
+        isOpen={isTest4Open}
+        onClose={() => setIsTest4Open(false)}
+      />
+
+      <button onClick={() => setIsTest5Open(true)}>
+        Открыть 5 задание
+      </button>
+
+      <FindBug2
+        isOpen={isTest5Open}
+        onClose={() => setIsTest5Open(false)}
+      />
+
+      <button onClick={() => setIsTest6Open(true)}>
+        Открыть 6 задание
+      </button>
+
+      <FindBug3
+        isOpen={isTest6Open}
+        onClose={() => setIsTest6Open(false)}
       />
 
       <button onClick={() => setIsBossOpen(true)}>

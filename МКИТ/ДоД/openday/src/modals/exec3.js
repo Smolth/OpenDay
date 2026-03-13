@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import '../App.css';
 
 const CenterDivModal = ({ isOpen, onClose }) => {
@@ -39,7 +39,7 @@ const CenterDivModal = ({ isOpen, onClose }) => {
 
         if (isPerfectlyCentered && !isCentered) {
             setIsCentered(true);
-            setHint('Идеально! Блок по центру!');
+            setHint('Кривой блок на странице - самая жиза для любого фронтенд-разработчика');
             
            
             setTimeout(() => {
