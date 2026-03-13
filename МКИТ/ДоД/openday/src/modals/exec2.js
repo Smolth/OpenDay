@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import '../App.css';
+import { useQuest } from '../context/QuestContext';
 
 const systemIcons = {
     server: '🖥️',
@@ -23,6 +24,7 @@ const FindSecretModal = ({ isOpen, onClose }) => {
     });
     const [attempts, setAttempts] = useState(0);
     const [secretId, setSecretId] = useState(null);
+    const { completeQuest } = useQuest();
 
     useEffect(() => {
         if (isOpen) {
@@ -42,6 +44,7 @@ const FindSecretModal = ({ isOpen, onClose }) => {
 
             if (isOnTop) {
                 setFound(true);
+                completeQuest('findSecret');
             }
         }
     }, [cssProperties.zIndex, secretId, elements, found]);
@@ -158,7 +161,7 @@ const FindSecretModal = ({ isOpen, onClose }) => {
             }
         }));
     };
-    
+
     const resetGame = () => {
         initializeElements();
     };

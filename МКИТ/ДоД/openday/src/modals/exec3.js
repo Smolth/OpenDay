@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import '../App.css';
+import { useQuest } from '../context/QuestContext';
 
 const CenterDivModal = ({ isOpen, onClose }) => {
     const [justifyContent, setJustifyContent] = useState('flex-start');
@@ -9,6 +10,7 @@ const CenterDivModal = ({ isOpen, onClose }) => {
     const [showOffer, setShowOffer] = useState(false);
     const [attempts, setAttempts] = useState(0);
     const [hint, setHint] = useState('');
+    const { completeQuest } = useQuest();
 
     const justifyOptions = [
         { value: 'flex-start', label: 'Начало', icon: '⬅️' },
@@ -32,18 +34,19 @@ const CenterDivModal = ({ isOpen, onClose }) => {
 
     // Проверка центрирования
     useEffect(() => {
-        const isPerfectlyCentered = 
-            justifyContent === 'center' && 
-            alignItems === 'center' && 
+        const isPerfectlyCentered =
+            justifyContent === 'center' &&
+            alignItems === 'center' &&
             flexDirection === 'row';
 
         if (isPerfectlyCentered && !isCentered) {
             setIsCentered(true);
             setHint('Кривой блок на странице - самая жиза для любого фронтенд-разработчика');
-            
-           
+
+
             setTimeout(() => {
                 setShowOffer(true);
+                completeQuest('centerDiv');
             }, 500);
         } else if (!isPerfectlyCentered && isCentered) {
             setIsCentered(false);
@@ -89,9 +92,9 @@ const CenterDivModal = ({ isOpen, onClose }) => {
         <div className="modal-overlay" onClick={onClose}>
             <div className="modal-content center-div-modal" onClick={(e) => e.stopPropagation()}>
                 <button className="modal-close" onClick={onClose}>×</button>
-                
+
                 <h2 className="modal-title">Задание</h2>
-                
+
                 <div className="game-container">
                     <div className="modal-question">
                         <p>К следующей точке ведёт куча проводов. Помоги сетевому пакету протиснуться к центральному проводу.</p>
@@ -110,8 +113,8 @@ const CenterDivModal = ({ isOpen, onClose }) => {
                                     <span>align-items: {alignItems};</span>
                                 </div>
                             </div>
-                            
-                            <div 
+
+                            <div
                                 className={`flex-playground ${isCentered ? 'centered' : ''}`}
                                 style={{
                                     display: 'flex',
@@ -129,7 +132,7 @@ const CenterDivModal = ({ isOpen, onClose }) => {
                                     ) : (
                                         <div className="offer-content">
                                             <span className="offer-icon">Успех!</span>
-                                           
+
                                             <button className="accept-offer" onClick={onClose}>
                                                 Вёрстка — это просто, если знать правила
                                             </button>
@@ -141,7 +144,7 @@ const CenterDivModal = ({ isOpen, onClose }) => {
 
                         <div className="control-panel">
                             <h2>Управление Flexbox</h2>
-                            
+
                             <div className="control-section">
                                 <label className="control-label">
                                     <span className="label-icon">🔄</span>
@@ -180,7 +183,7 @@ const CenterDivModal = ({ isOpen, onClose }) => {
                                     />
                                     <div className="slider-labels">
                                         {justifyOptions.map(opt => (
-                                            <span 
+                                            <span
                                                 key={opt.value}
                                                 className={`slider-label ${justifyContent === opt.value ? 'active' : ''}`}
                                                 onClick={() => handleJustifyChange(opt.value)}
@@ -211,7 +214,7 @@ const CenterDivModal = ({ isOpen, onClose }) => {
                                     />
                                     <div className="slider-labels">
                                         {alignOptions.map(opt => (
-                                            <span 
+                                            <span
                                                 key={opt.value}
                                                 className={`slider-label ${alignItems === opt.value ? 'active' : ''}`}
                                                 onClick={() => handleAlignChange(opt.value)}
@@ -226,14 +229,13 @@ const CenterDivModal = ({ isOpen, onClose }) => {
 
                             <div className="progress-indicator">
                                 <div className="progress-bar">
-                                    <div 
+                                    <div
                                         className="progress-fill"
                                         style={{
-                                            width: `${
-                                                (justifyContent === 'center' ? 33.33 : 0) +
+                                            width: `${(justifyContent === 'center' ? 33.33 : 0) +
                                                 (alignItems === 'center' ? 33.33 : 0) +
                                                 (flexDirection === 'row' ? 33.34 : 0)
-                                            }%`
+                                                }%`
                                         }}
                                     ></div>
                                 </div>
@@ -251,7 +253,7 @@ const CenterDivModal = ({ isOpen, onClose }) => {
                                 </div>
                             )}
 
-                            <button 
+                            <button
                                 className="reset-btn"
                                 onClick={!showOffer ? resetGame : onClose}
                             >

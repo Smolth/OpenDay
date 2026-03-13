@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useRef, useCallback } from 'react';
 import '../App.css';
+import { useQuest } from '../context/QuestContext';
 
 const Boss = ({ isOpen, onClose }) => {
     const [result, setResult] = useState("");
@@ -7,6 +8,7 @@ const Boss = ({ isOpen, onClose }) => {
     const [start, setStart] = useState(false);
     const [pc, setPc] = useState([]);
     const [shots, setShots] = useState([]);
+    const { completeQuest } = useQuest();
 
     const canvasRef = useRef(null);
     const consoleRef = useRef(null);
@@ -54,7 +56,6 @@ const Boss = ({ isOpen, onClose }) => {
                 ctx.lineTo(cellX + 10, cellY + cellSize - 10);
                 ctx.stroke();
 
-                // Красная обводка
                 ctx.strokeStyle = "#f00";
                 ctx.lineWidth = 2;
                 ctx.strokeRect(cellX + 2, cellY + 2, cellSize - 4, cellSize - 4);
@@ -70,7 +71,6 @@ const Boss = ({ isOpen, onClose }) => {
         ctx.lineWidth = 1;
     }, [fieldSize, cellSize, shots]);
 
-    // Генерация кораблей
     const generatePc = useCallback(() => {
         const newPc = [];
         while (newPc.length < 5) {
@@ -126,6 +126,7 @@ const Boss = ({ isOpen, onClose }) => {
             if (newHits === 5) {
                 setResult("ПОБЕДА! Все лазейки злоумышленника уничтожены!");
                 log("ПОБЕДА! Все уязвимости устранены!");
+                completeQuest('boss');
             }
         } else {
             log(`ПРОМАХ в [${row},${col}]`);

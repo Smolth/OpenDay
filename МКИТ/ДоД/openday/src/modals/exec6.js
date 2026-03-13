@@ -1,27 +1,29 @@
 import { useCallback, useEffect, useState } from 'react';
 import '../App.css';
+import { useQuest } from '../context/QuestContext';
 
 const FindBug3 = ({ isOpen, onClose }) => {
     const [code, setCode] = useState(`console.log("Загрузка началась!);`);
     const [outText, setOutText] = useState('');
     const [success, setSuccess] = useState(false);
+    const { completeQuest } = useQuest();
 
     const executeCode = useCallback((codeString) => {
         try {
             const originalLog = console.log;
             let consoleOutput = '';
-            
+
             console.log = (...args) => {
                 const message = args.join(' ');
                 consoleOutput += message + '\n';
                 originalLog(...args);
             };
-            
+
             const func = new Function(codeString);
             func();
-            
+
             console.log = originalLog;
-            
+
             return consoleOutput.trim();
         } catch (error) {
             return `Ошибка: ${error.message}`;
@@ -35,6 +37,7 @@ const FindBug3 = ({ isOpen, onClose }) => {
             setOutText(result);
             if (result === "Загрузка началась!") {
                 setSuccess(true)
+                completeQuest("FindBug3")
             }
         } catch (error) {
             setOutText(`Ошибка: ${error.message}`);

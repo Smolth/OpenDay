@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 import '../App.css';
+import { useQuest } from '../context/QuestContext';
 const QuestionModal = ({ isOpen, onClose, question, options, correctAnswer }) => {
   const [selectedOption, setSelectedOption] = useState(null);
   const [showError, setShowError] = useState(false);
+  const { completeQuest } = useQuest();
 
   if (!isOpen) return null;
 
@@ -18,6 +20,7 @@ const QuestionModal = ({ isOpen, onClose, question, options, correctAnswer }) =>
     }
 
     if (selectedOption === correctAnswer) {
+      completeQuest('question');
       setSelectedOption(null);
       setShowError(false);
       onClose();
@@ -36,9 +39,9 @@ const QuestionModal = ({ isOpen, onClose, question, options, correctAnswer }) =>
     <div className="modal-overlay" onClick={handleClose}>
       <div className="modal-content" onClick={(e) => e.stopPropagation()}>
         <button className="modal-close" onClick={handleClose}>×</button>
-        
+
         <h2 className="modal-title">Вопрос</h2>
-        
+
         <div className="modal-question">
           <p>{question}</p>
         </div>
@@ -60,14 +63,14 @@ const QuestionModal = ({ isOpen, onClose, question, options, correctAnswer }) =>
 
         {showError && (
           <div className="error-message">
-            {!selectedOption 
-              ? 'Пожалуйста, выберите вариант ответа' 
+            {!selectedOption
+              ? 'Пожалуйста, выберите вариант ответа'
               : 'Неверный ответ. Попробуйте снова!'}
           </div>
         )}
 
-        <button 
-          className="submit-button" 
+        <button
+          className="submit-button"
           onClick={handleSubmit}
         >
           Ответить

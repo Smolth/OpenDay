@@ -2,49 +2,46 @@ import { useCallback, useEffect, useState } from 'react';
 import '../App.css';
 import { useQuest } from '../context/QuestContext';
 
-const FindBug = ({ isOpen, onClose }) => {
-    const [code, setCode] = useState(`const a = 50;
-const b = 150;
-if(a < b){
-    return 'Переменная a больше b'
-}
-else{
-   return 'Переменная b больше a'
+const FindBug4 = ({ isOpen, onClose }) => {
+    const [code, setCode] = useState(`let i = 1;
+while (i <= 5) {
+  console.log(i);
+  i=i*3
 }`);
-    const [outText, setOutText] = useState('Переменная a больше b');
+    const [outText, setOutText] = useState('');
     const [success, setSuccess] = useState(false);
     const { completeQuest } = useQuest();
 
     const executeCode = useCallback((codeString) => {
         try {
-            const func = new Function(`
-                ${codeString}
-                // Возвращаем результат последнего выражения
-                let result;
-                const lines = \`${codeString}\`.split('\\n').filter(line => line.trim() && !line.includes('if') && !line.includes('else'));
-                const lastLine = lines[lines.length - 1];
-                try {
-                    result = eval(lastLine);
-                } catch(e) {
-                    result = '';
-                }
-                return result;
-            `);
+            const originalLog = console.log;
+            let consoleOutput = '';
 
-            const result = func();
-            return result || '';
+            console.log = (...args) => {
+                const message = args.join(' ');
+                consoleOutput += message + '\n';
+                originalLog(...args);
+            };
+
+            const func = new Function(codeString);
+            func();
+
+            console.log = originalLog;
+
+            return consoleOutput.trim();
         } catch (error) {
             return `Ошибка: ${error.message}`;
         }
     }, []);
 
+
     useEffect(() => {
         try {
             const result = executeCode(code);
             setOutText(result);
-            if (outText === "Переменная b больше a") {
+            if (result.includes(1)&&result.includes(2)&&result.includes(3)&&result.includes(4)&&result.includes(5)) {
                 setSuccess(true)
-                completeQuest("FindBug1")
+                completeQuest("FindBug4")
             }
         } catch (error) {
             setOutText(`Ошибка: ${error.message}`);
@@ -61,13 +58,10 @@ else{
     };
 
     const handleReset = () => {
-        setCode(`const a = 50;
-const b = 150;
-if(a < b){
-    return 'Переменная a больше b'
-}
-else{
-   return 'Переменная b больше a'
+        setCode(`let i = 1;
+while (i <= 5) {
+  console.log(i);
+  i=i*3
 }`)
         const result = executeCode(code);
         setOutText(result);
@@ -81,9 +75,11 @@ else{
                 <h2 className="modal-title">Задание</h2>
 
                 <div className="modal-question" onCopy={(e) => e.preventDefault()}>
-                    <p>В сетевом пакете оказалось слишком много данных. Помогите их сократить.</p>
-                    <p>Вам представлен код с ошибкой. Исправьте его, чтобы в окне вывода появлялось правильное сообщение.</p>
+                    <p>Пользователь прервал загрузку и пакету нужно вернуться на начальную позицию. Посчитайте сколько промежуочных точек ему нужно пройти.</p>
+                    <p>Вам представлен код с ошибкой. Ожидается что i с каждым разом будет увеличиваться на единицу.</p>
                 </div>
+
+                <p className='error-message'>Аккуратнее! Неправильное изменение данного кода приведёт к прекращению работы всей программы! Позови одного из помощников, чтобы этого не случилось!</p>
 
                 <div className='console-line'>
                     <section>
@@ -97,7 +93,7 @@ else{
                     </section>
 
                     <section>
-                        <p className='console-label'>Консоль вывода</p>
+                        <p className='console-label'>Терминал вывода</p>
                         <textarea
                             value={outText}
                             placeholder="Вывод логов..."
@@ -122,4 +118,4 @@ else{
     );
 };
 
-export default FindBug;
+export default FindBug4;

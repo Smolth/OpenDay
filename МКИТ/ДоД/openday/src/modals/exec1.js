@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import '../App.css';
+import { useQuest } from '../context/QuestContext';
 
 const TypeText = ({ isOpen, onClose }) => {
     const [text, setText] = useState('');
@@ -9,6 +10,7 @@ const TypeText = ({ isOpen, onClose }) => {
     const [timer, setTimer] = useState(35);
     const [timeInterval, setTimeInterval] = useState(null);
     const [buttonText, setButtonText] = useState("Старт");
+    //const { completeQuest } = useQuest();
 
 
     const allText = [["1) Включите IP forwarding.", "sysctl -w net.ipv4.ip_forward=1"], ["2) Добавьте статический маршрут.", "ip route add 192.168.2.0/24 via 192.168.1.1 dev eth1"], ["3) Для добавления NAT.", "iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE"], ["4) Сохраните введённые правила.", "service iptables save"], ["5) Проверьте результат.", "ip route show, traceroute 192.168.2.10"]];
@@ -22,6 +24,7 @@ const TypeText = ({ isOpen, onClose }) => {
                 setResult("Ура! Пакет нашёл новый путь и продолжает движение");
                 if (start === 5) {
                     setButtonText("Готово — пакет маршрутизируется через указанный шлюз!")
+                    //completeQuest('typeText');
                 } else {
                     setButtonText("Продолжить настройку")
                 }

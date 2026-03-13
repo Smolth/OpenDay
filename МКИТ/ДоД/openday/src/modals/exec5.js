@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useState } from 'react';
 import '../App.css';
+import { useQuest } from '../context/QuestContext';
 
 const FindBug2 = ({ isOpen, onClose }) => {
     const [code, setCode] = useState(`function calculateSum(a, b) {
@@ -9,6 +10,7 @@ const FindBug2 = ({ isOpen, onClose }) => {
 return(calculateSum(6, '10')); `);
     const [outText, setOutText] = useState(610);
     const [success, setSuccess] = useState(false);
+        const { completeQuest } = useQuest();
 
     const executeCode = useCallback((codeString) => {
         try {
@@ -39,6 +41,7 @@ return(calculateSum(6, '10')); `);
             setOutText(result);
             if (outText === 16) {
                 setSuccess(true)
+                completeQuest("FindBug2")
             }
         } catch (error) {
             setOutText(`Ошибка: ${error.message}`);
