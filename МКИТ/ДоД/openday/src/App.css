@@ -1,7 +1,7 @@
 .instructions {
   position: fixed;
   width: 30vw;
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: "montserrat";
   font-weight: 600;
   text-align: center;
   top: 20vh;
@@ -10,6 +10,7 @@
   border: solid 3px #7ef1ef;
   border-radius: 10px;
   animation: glare linear 2s infinite;
+  color: whitesmoke;
 }
 
 /* QuizModal.css */

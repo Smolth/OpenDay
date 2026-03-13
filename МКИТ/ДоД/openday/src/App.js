@@ -11,6 +11,7 @@ import FindBug from './modals/exec4';
 import FindBug2 from './modals/exec5';
 import FindBug3 from './modals/exec6';
 import FindBug4 from './modals/exec7';
+import Alchemy from './modals/exec8';
 
 function MapWithQuest() {
   const { completedQuests, currentPosition } = useQuest();
@@ -70,8 +71,8 @@ function MapWithQuest() {
     { top: '768px', left: '950px' },   // bt-5
     { top: '100px', left: '1100px' },  // bt-6
     { top: '200px', left: '1100px' },  // bt-7
-    { top: '150px', left: '1100px' },   // bt-8
-    { top: '50px', left: '1100px' }   // bt-9
+    { top: '150px', left: '1100px' },  // bt-8
+    { top: '50px', left: '1100px' }    // bt-9
   ];
 
   return (
@@ -202,7 +203,7 @@ function MapWithQuest() {
             style={{ position: 'absolute', ...buttonPositions[8] }}>
         Открыть 7 задание
       </button>
-      <FindBug4
+      <Alchemy
         isOpen={isTest7Open}
         onClose={() => setIsTest7Open(false)}
       />
