@@ -14,7 +14,7 @@ import FindBug4 from './modals/exec7';
 
 function MapWithQuest() {
   const { completedQuests, updateQuestStatus, resetProgress } = useQuest(); // Добавляем updateQuestStatus
-  
+
   // Состояния для модалок
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isTestOpen, setIsTestOpen] = useState(false);
@@ -25,14 +25,14 @@ function MapWithQuest() {
   const [isTest6Open, setIsTest6Open] = useState(false);
   const [isTest7Open, setIsTest7Open] = useState(false);
   const [isBossOpen, setIsBossOpen] = useState(false);
-  
+
   const [showPathSelection, setShowPathSelection] = useState(false);
   const [selectedPath, setSelectedPath] = useState(null);
   const [currentPosition, setCurrentPosition] = useState(0); // 0 - стартовая позиция
 
   // Начальная точка А
   const startPoint = useMemo(() => ({ top: '75px', left: '1000px' }), []);
-  
+
   // Позиции кнопок на карте
   const buttonPositions = useMemo(() => [
     { top: '295px', left: '1055px' },  // question1 (индекс 0)
@@ -67,7 +67,7 @@ function MapWithQuest() {
 
   // Маппинг для открытия модалок
   const openModalByIndex = (index) => {
-    switch(index) {
+    switch (index) {
       case 0: setIsModalOpen(true); break;
       case 1: setIsTestOpen(true); break;
       case 2: setIsTest2Open(true); break;
@@ -86,7 +86,7 @@ function MapWithQuest() {
     console.log('🟢 Выбран путь:', path);
     setSelectedPath(path);
     setShowPathSelection(false);
-    
+
     const firstQuestIndex = paths[path][0];
     console.log('🎯 Первое задание пути:', firstQuestIndex);
     setCurrentPosition(firstQuestIndex);
@@ -109,14 +109,14 @@ function MapWithQuest() {
     for (let i = 0; i < currentPath.length; i++) {
       const questIndex = currentPath[i];
       const questName = questNames[questIndex];
-      
+
       if (!completedQuests[questName]) {
         nextPosition = questIndex;
         foundIncomplete = true;
         break;
       }
     }
-    
+
     if (!foundIncomplete && currentPath.length > 0) {
       nextPosition = currentPath[currentPath.length - 1];
     }
@@ -146,12 +146,12 @@ function MapWithQuest() {
   // Проверка доступности кнопки
   const isButtonAvailable = (buttonIndex) => {
     if (!selectedPath) return false;
-    
+
     const currentPath = paths[selectedPath];
     if (!currentPath.includes(buttonIndex)) return false;
-    
+
     const pathIndex = currentPath.indexOf(buttonIndex);
-    
+
     for (let i = 0; i < pathIndex; i++) {
       const prevQuestIndex = currentPath[i];
       const prevQuestName = questNames[prevQuestIndex];
@@ -159,7 +159,7 @@ function MapWithQuest() {
         return false;
       }
     }
-    
+
     return true;
   };
 
@@ -171,6 +171,33 @@ function MapWithQuest() {
     question: "Какой язык используется для вёрстки веб-страниц в браузере?",
     options: ["CSS", "HTML", "JavaScript", "Python"],
     correctAnswer: "HTML"
+  }, {
+    question: "Что из перечисленного является IP-адресом?",
+    options: ["IP75912", "109345.1336.00.11", "https://yandex.ru/", "172.16.13.11"],
+    correctAnswer: "172.16.13.11"
+  }, {
+    question: "Что такое переменная в коде?",
+    options: ["Неизвестное, которое необходимо найти",
+      "Ячейка для хранения и управления данными, которые могут в процессе выполнения программы изменяться",
+      "Тип данных",
+      "Оператор, который служит для повторения набора операций, пока заданное условие не будет выполнено"],
+    correctAnswer: "Ячейка для хранения и управления данными, которые могут в процессе выполнения программы изменяться"
+  }, {
+    question: "Как называется сетевое устройство, принимающее интернет от провайдера и распределяющее его (по кабелю или Wi-Fi) между домашними/офисными устройствами?",
+    options: ["Маршрутизатор", "Фаерволл", "Сетевщик", "Интернет"],
+    correctAnswer: "Маршрутизатор"
+  }, {
+    question: "Что из перечисленного не является операционной системой?",
+    options: ["Linux", "Microsoft", "MacOs", "Kerny"],
+    correctAnswer: "Kerny"
+  }, {
+    question: "Он строит цифровые крепости и отражает кибератаки. Кто это?",
+    options: ["Веб-разработчик", "Разработчик программного обеспечения в сфере кибербезопасности", "Специалист по работе с базами данных", "Системный администратор"],
+    correctAnswer: "Разработчик программного обеспечения в сфере кибербезопасности"
+  }, {
+    question: "Как называется специалист, который создает интерфейсы, с которыми приятно работать?",
+    options: ["UX/UI-дизайнер", "Мастер интерфейсов", "Frontend-разработчик", "Пентестер"],
+    correctAnswer: "UX/UI-дизайнер"
   }], []);
 
   const position = getDisplayPosition();
@@ -197,7 +224,7 @@ function MapWithQuest() {
           <div className="path-selection-modal">
             <h2>Выберите путь для пакета</h2>
             <div className="path-buttons">
-              <button 
+              <button
                 className="path-btn path1"
                 onClick={() => handlePathSelect('path1')}
               >
@@ -208,7 +235,7 @@ function MapWithQuest() {
                   <small>Для тех, кто любит дебажить</small>
                 </div>
               </button>
-              <button 
+              <button
                 className="path-btn path2"
                 onClick={() => handlePathSelect('path2')}
               >
@@ -226,7 +253,7 @@ function MapWithQuest() {
 
       {/* Кнопка старта */}
       {!selectedPath && (
-        <button 
+        <button
           className="start-btn"
           style={{
             position: 'absolute',
@@ -241,7 +268,7 @@ function MapWithQuest() {
 
       {/* Инструкция */}
       <div className='instructions'>
-        <h1 style={{color: "rgb(235, 205, 98)"}}>Инструкция</h1>
+        <h1 style={{ color: "rgb(235, 205, 98)" }}>Инструкция</h1>
         <p>Приветствуем тебя!</p>
         <p>Сегодня мы предлагаем сыграть в небольшую игру, которая поверхностно погружает в повседневные суету из задач и проблем разработчика.</p>
         <p>Вы знаете, что такое сетевой пакет? Это набор данных, передаваемый по сети, от одной точки в другую - от соседа к соседа и от компютера к смартфону.</p>
@@ -250,9 +277,9 @@ function MapWithQuest() {
           <div className="path-info-display">
             <p>Выбран путь: {selectedPath === 'path1' ? 'Путь разработчика' : 'Основной путь'}</p>
             <p>Текущее задание: {
-              currentPosition === 0 ? 'Старт' : 
-              currentPosition === 4 ? 'Босс' : 
-              `Задание ${currentPosition + 1}`
+              currentPosition === 0 ? 'Старт' :
+                currentPosition === 4 ? 'Босс' :
+                  `Задание ${currentPosition + 1}`
             }</p>
             <button className="reset-path-small" onClick={resetPath}>Сменить путь</button>
           </div>
@@ -408,7 +435,7 @@ function MapWithQuest() {
       />
 
       {/* Кнопка сброса */}
-      <button 
+      <button
         style={{
           position: 'fixed',
           bottom: '20px',
