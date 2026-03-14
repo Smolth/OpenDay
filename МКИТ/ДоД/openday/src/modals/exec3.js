@@ -10,7 +10,7 @@ const CenterDivModal = ({ isOpen, onClose }) => {
     const [showOffer, setShowOffer] = useState(false);
     const [attempts, setAttempts] = useState(0);
     const [hint, setHint] = useState('');
-    const { completeQuest } = useQuest();
+    const { updateQuestStatus } = useQuest();
 
     const justifyOptions = [
         { value: 'flex-start', label: 'Начало', icon: '⬅️' },
@@ -46,7 +46,7 @@ const CenterDivModal = ({ isOpen, onClose }) => {
 
             setTimeout(() => {
                 setShowOffer(true);
-                completeQuest('centerDiv');
+                updateQuestStatus('centerDiv', true);
             }, 500);
         } else if (!isPerfectlyCentered && isCentered) {
             setIsCentered(false);

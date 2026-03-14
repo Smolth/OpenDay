@@ -6,7 +6,7 @@ const FindBug3 = ({ isOpen, onClose }) => {
     const [code, setCode] = useState(`console.log("Загрузка началась!);`);
     const [outText, setOutText] = useState('');
     const [success, setSuccess] = useState(false);
-    const { completeQuest } = useQuest();
+    const { updateQuestStatus } = useQuest();
 
     const executeCode = useCallback((codeString) => {
         try {
@@ -37,7 +37,7 @@ const FindBug3 = ({ isOpen, onClose }) => {
             setOutText(result);
             if (result === "Загрузка началась!") {
                 setSuccess(true)
-                completeQuest("FindBug3")
+                updateQuestStatus("FindBug3", true)
             }
         } catch (error) {
             setOutText(`Ошибка: ${error.message}`);

@@ -10,7 +10,7 @@ const FindBug2 = ({ isOpen, onClose }) => {
 return(calculateSum(6, '10')); `);
     const [outText, setOutText] = useState(610);
     const [success, setSuccess] = useState(false);
-        const { completeQuest } = useQuest();
+        const { updateQuestStatus } = useQuest();
 
     const executeCode = useCallback((codeString) => {
         try {
@@ -41,7 +41,7 @@ return(calculateSum(6, '10')); `);
             setOutText(result);
             if (outText === 16) {
                 setSuccess(true)
-                completeQuest("FindBug2")
+                updateQuestStatus("FindBug2", true)
             }
         } catch (error) {
             setOutText(`Ошибка: ${error.message}`);

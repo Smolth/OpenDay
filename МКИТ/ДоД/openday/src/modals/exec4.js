@@ -13,7 +13,7 @@ else{
 }`);
     const [outText, setOutText] = useState('Переменная a больше b');
     const [success, setSuccess] = useState(false);
-    const { completeQuest } = useQuest();
+    const { updateQuestStatus } = useQuest();
 
     const executeCode = useCallback((codeString) => {
         try {
@@ -44,7 +44,7 @@ else{
             setOutText(result);
             if (outText === "Переменная b больше a") {
                 setSuccess(true)
-                completeQuest("FindBug1")
+                updateQuestStatus("FindBug1", true)
             }
         } catch (error) {
             setOutText(`Ошибка: ${error.message}`);

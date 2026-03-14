@@ -12,94 +12,62 @@ export const useQuest = () => {
 
 export const QuestProvider = ({ children }) => {
     const [completedQuests, setCompletedQuests] = useState({
-        question1: false,  
-        question2: false, 
-        question3: false, 
-        question4: false, 
-        question5: false, 
-        question6: false,  
-        question7: false,   
-        typeText: false,     
-        findSecret: false,    
+        question1: false,
+        question2: false,
+        question3: false,
+        question4: false,
+        question5: false,
+        question6: false,
+        question7: false,
+        typeText: false,
+        findSecret: false,
         centerDiv: false,
         alchemy: false,
-        findBug1: false, 
-        findBug2: false, 
-        findBug3: false,   
-        findBug4: false,    
-        boss: false         
+        findBug1: false,
+        findBug2: false,
+        findBug3: false,
+        findBug4: false,
+        boss: false,
+        battle: false
     });
 
-    const [currentPosition, setCurrentPosition] = useState(1);
-
-    useEffect(() => {
-        const allPreviousCompleted = 
-            completedQuests.question1 && 
-            completedQuests.typeText && 
-            completedQuests.findSecret && 
-            completedQuests.centerDiv;
-
-        if (allPreviousCompleted && !completedQuests.boss) {
-            setCurrentPosition(5);
-        }
-    }, [completedQuests]);
-
-    const completeQuest = (questName) => {
-        setCompletedQuests(prev => {
-            const newState = { ...prev, [questName]: true };
-            const questOrder = ['question1', 'typeText', 'findSecret', 'centerDiv', 'boss'];
-            const completedCount = questOrder.filter(q => newState[q]).length;
-            
-            if (completedCount < questOrder.length) {
-                const nextQuestIndex = questOrder.findIndex(q => !newState[q]);
-                setCurrentPosition(nextQuestIndex + 1);
-            }
-            
-            return newState;
-        });
+    const updateQuestStatus = (questName, isCompleted) => {
+        setCompletedQuests(prev => ({
+            ...prev,
+            [questName]: isCompleted
+        }));
     };
 
     const resetProgress = () => {
         setCompletedQuests({
-        question1: false,  
-        question2: false, 
-        question3: false, 
-        question4: false, 
-        question5: false, 
-        question6: false,  
-        question7: false,   
-        typeText: false,     
-        findSecret: false,    
-        centerDiv: false,
-        alchemy: false,
-        findBug1: false, 
-        findBug2: false, 
-        findBug3: false, 
-        findBug4: false,      
-        boss: false   
+            question1: false,
+            question2: false,
+            question3: false,
+            question4: false,
+            question5: false,
+            question6: false,
+            question7: false,
+            typeText: false,
+            findSecret: false,
+            centerDiv: false,
+            alchemy: false,
+            findBug1: false,
+            findBug2: false,
+            findBug3: false,
+            findBug4: false,
+            boss: false
         });
-        setCurrentPosition(1);
     };
 
-    const isQuestAvailable = (questNumber) => {
-        const questOrder = ['question1', 'typeText', 'findSecret', 'centerDiv', 'boss'];
-        for (let i = 0; i < questNumber - 1; i++) {
-            if (!completedQuests[questOrder[i]]) {
-                return false;
-            }
-        }
-        return true;
-    };
+const value = useMemo(() => ({
+    completedQuests,
+    updateQuestStatus,
+    resetProgress
+  }), [completedQuests]);
 
-    return (
-        <QuestContext.Provider value={{
-            completedQuests,
-            currentPosition,
-            completeQuest,
-            resetProgress,
-            isQuestAvailable
-        }}>
-            {children}
-        </QuestContext.Provider>
-    );
+  return (
+    <QuestContext.Provider value={value}>
+      {children}
+    </QuestContext.Provider>
+  );
 };

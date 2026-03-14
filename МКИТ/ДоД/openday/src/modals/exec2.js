@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import '../App.css';
 import { useQuest } from '../context/QuestContext';
 
@@ -9,7 +9,7 @@ const systemIcons = {
     firewall: '🔥',
     router: '🌐',
     terminal: '💻',
-    secret: '🔐' // нужно найти
+    secret: '🔐'
 };
 
 const FindSecretModal = ({ isOpen, onClose }) => {
@@ -24,32 +24,9 @@ const FindSecretModal = ({ isOpen, onClose }) => {
     });
     const [attempts, setAttempts] = useState(0);
     const [secretId, setSecretId] = useState(null);
-    const { completeQuest } = useQuest();
+    const { updateQuestStatus } = useQuest();
 
-    useEffect(() => {
-        if (isOpen) {
-            initializeElements();
-        }
-    }, [isOpen]);
-
-    useEffect(() => {
-        if (secretId !== null && !found) {
-            const secretZIndex = cssProperties.zIndex[secretId] || 0;
-            const allOtherZIndices = elements
-                .filter(el => el.id !== secretId)
-                .map(el => cssProperties.zIndex[el.id] || 0);
-
-            const isOnTop = allOtherZIndices.length === 0 ||
-                secretZIndex > Math.max(...allOtherZIndices);
-
-            if (isOnTop) {
-                setFound(true);
-                completeQuest('findSecret');
-            }
-        }
-    }, [cssProperties.zIndex, secretId, elements, found]);
-
-    const initializeElements = () => {
+    const initializeElements = useCallback(() => {
         const newElements = [];
         const types = ['server', 'database', 'cloud', 'firewall', 'router', 'terminal'];
 
@@ -76,7 +53,6 @@ const FindSecretModal = ({ isOpen, onClose }) => {
         }
 
         const shuffled = newElements.sort(() => Math.random() - 0.5);
-
         setElements(shuffled);
 
         const initialZIndex = {};
@@ -101,15 +77,37 @@ const FindSecretModal = ({ isOpen, onClose }) => {
         setFound(false);
         setSelectedElement(null);
         setAttempts(0);
-    };
+    }, []);
 
-    const handleElementClick = (id) => {
+    useEffect(() => {
+        if (isOpen) {
+            initializeElements();
+        }
+    }, [isOpen, initializeElements]);
+
+    useEffect(() => {
+        if (secretId !== null && !found) {
+            const secretZIndex = cssProperties.zIndex[secretId] || 0;
+            const allOtherZIndices = elements
+                .filter(el => el.id !== secretId)
+                .map(el => cssProperties.zIndex[el.id] || 0);
+
+            const isOnTop = allOtherZIndices.length === 0 ||
+                secretZIndex > Math.max(...allOtherZIndices);
+
+            if (isOnTop) {
+                setFound(true);
+                updateQuestStatus('findSecret', true);
+            }
+        }
+    }, [cssProperties.zIndex, secretId, elements, found, updateQuestStatus]);
+
+    const handleElementClick = useCallback((id) => {
         setSelectedElement(id);
         setAttempts(prev => prev + 1);
+    }, []);
 
-    };
-
-    const updateZIndex = (id, operation) => {
+    const updateZIndex = useCallback((id, operation) => {
         setCssProperties(prev => {
             const newZIndex = { ...prev.zIndex };
             if (operation === 'increase') {
@@ -119,9 +117,9 @@ const FindSecretModal = ({ isOpen, onClose }) => {
             }
             return { ...prev, zIndex: newZIndex };
         });
-    };
+    }, []);
 
-    const updateOpacity = (id, value) => {
+    const updateOpacity = useCallback((id, value) => {
         setCssProperties(prev => ({
             ...prev,
             opacity: {
@@ -129,9 +127,9 @@ const FindSecretModal = ({ isOpen, onClose }) => {
                 [id]: Math.max(0.1, Math.min(1, value))
             }
         }));
-    };
+    }, []);
 
-    const updateTransform = (id, property, value) => {
+    const updateTransform = useCallback((id, property, value) => {
         setCssProperties(prev => {
             let newTransform;
 
@@ -149,9 +147,9 @@ const FindSecretModal = ({ isOpen, onClose }) => {
                 }
             };
         });
-    };
+    }, []);
 
-    const updateFilter = (id, type, value) => {
+    const updateFilter = useCallback((id, type, value) => {
         setCssProperties(prev => ({
             ...prev,
             filter: {
@@ -160,11 +158,22 @@ const FindSecretModal = ({ isOpen, onClose }) => {
                     type === 'brightness' ? `brightness(${value})` : 'none'
             }
         }));
-    };
+    }, []);
 
-    const resetGame = () => {
+    const resetGame = useCallback(() => {
         initializeElements();
-    };
+    }, [initializeElements]);
+
+    const resetElement = useCallback(() => {
+        if (selectedElement !== null) {
+            const element = elements.find(el => el.id === selectedElement);
+            if (element) {
+                updateZIndex(selectedElement, 'reset');
+                updateOpacity(selectedElement, element.initialOpacity);
+                updateTransform(selectedElement, 'rotate', element.initialRotation);
+            }
+        }
+    }, [selectedElement, elements, updateZIndex, updateOpacity, updateTransform]);
 
     if (!isOpen) return null;
 
@@ -173,12 +182,12 @@ const FindSecretModal = ({ isOpen, onClose }) => {
             <div className="modal-content find-secret-modal" onClick={(e) => e.stopPropagation()}>
                 <button className="modal-close" onClick={onClose}>×</button>
 
-                <h2 className="modal-title">Задание</h2>
+                <h2 className="modal-title">Поиск секретного ключа</h2>
 
                 <div className="modal-question">
                     <p>Секретный ключ для расшифровки данных потерялся. Секретный файл (🔐), который хранит все ключи, необходимо найти среди множества элементов информационной системы.</p>
                     <p>Используйте панель управления справа, чтобы изменять CSS-свойства и найти его!</p>
-
+                    <p><strong>Подсказка:</strong> Секретный файл должен быть поверх всех остальных элементов (самый большой z-index)</p>
                 </div>
 
                 <div className="game-container">
@@ -207,7 +216,7 @@ const FindSecretModal = ({ isOpen, onClose }) => {
                             ))}
                         </div>
 
-                        {selectedElement !== null && (
+                        {selectedElement !== null && !found && (
                             <div className="control-panel">
                                 <h3>Управление элементом</h3>
 
@@ -227,14 +236,14 @@ const FindSecretModal = ({ isOpen, onClose }) => {
                                         min="0.1"
                                         max="1"
                                         step="0.1"
-                                        value={cssProperties.opacity[selectedElement]}
+                                        value={cssProperties.opacity[selectedElement] || 1}
                                         onChange={(e) => updateOpacity(selectedElement, parseFloat(e.target.value))}
                                     />
-                                    <span>{cssProperties.opacity[selectedElement]?.toFixed(1)}</span>
+                                    <span>{(cssProperties.opacity[selectedElement] || 1).toFixed(1)}</span>
                                 </div>
 
                                 <div className="control-group">
-                                    <label> Поворот (Rotate):</label>
+                                    <label>Поворот (Rotate):</label>
                                     <input
                                         type="range"
                                         min="-180"
@@ -281,11 +290,7 @@ const FindSecretModal = ({ isOpen, onClose }) => {
 
                                 <button
                                     className="reset-element-btn"
-                                    onClick={(element) => {
-                                        updateZIndex(selectedElement, 'reset');
-                                        updateOpacity(selectedElement, element.initialOpacity);
-                                        updateTransform(selectedElement, 'rotate', element.initialRotation);
-                                    }}
+                                    onClick={resetElement}
                                 >
                                     Сбросить для этого элемента
                                 </button>
@@ -294,16 +299,22 @@ const FindSecretModal = ({ isOpen, onClose }) => {
                     </div>
 
                     <div className="game-footer">
-
                         <div className="game-stats">
                             <span className="info-message">Попыток: {attempts}</span>
-                            {found && <span className="victory">Ключ найден!</span>}
+                            {found && <span className="victory">🎉 Ключ найден! Задание выполнено! 🎉</span>}
                         </div>
 
                         <div className="game-controls">
-                            {!found && <button className="reset-btn" onClick={resetGame}>
-                                Новая игра
-                            </button>}
+                            {!found && (
+                                <button className="reset-btn" onClick={resetGame}>
+                                    Новая игра
+                                </button>
+                            )}
+                            {found && (
+                                <button className="reset-btn" onClick={onClose}>
+                                    Завершить задание
+                                </button>
+                            )}
                         </div>
                     </div>
                 </div>

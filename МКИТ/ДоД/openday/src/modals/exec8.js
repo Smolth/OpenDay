@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
-import '../alchemy.css';
+import '../Alchemy.css';
 import { useQuest } from '../context/QuestContext';
 
 
@@ -50,7 +50,7 @@ const Alchemy = ({ isOpen, onClose }) => {
 
     const fieldRef = useRef(null);
     const basketRef = useRef(null);
-    const { completeQuest } = useQuest();
+    const { updateQuestStatus } = useQuest();
 
     useEffect(() => {
         const allCollected = allPossibleItems.every(item =>
@@ -59,7 +59,7 @@ const Alchemy = ({ isOpen, onClose }) => {
 
         if (allCollected && !showCompletionMessage) {
             setShowCompletionMessage(true);
-            completeQuest('alchemy');
+            updateQuestStatus('alchemy', true);
 
             setTimeout(() => {
                 setShowCompletionMessage(false);

@@ -8,7 +8,7 @@ const Boss = ({ isOpen, onClose }) => {
     const [start, setStart] = useState(false);
     const [pc, setPc] = useState([]);
     const [shots, setShots] = useState([]);
-    const { completeQuest } = useQuest();
+    const { updateQuestStatus } = useQuest();
 
     const canvasRef = useRef(null);
     const consoleRef = useRef(null);
@@ -126,7 +126,7 @@ const Boss = ({ isOpen, onClose }) => {
             if (newHits === 5) {
                 setResult("ПОБЕДА! Все лазейки злоумышленника уничтожены!");
                 log("ПОБЕДА! Все уязвимости устранены!");
-                completeQuest('boss');
+                updateQuestStatus('boss');
             }
         } else {
             log(`ПРОМАХ в [${row},${col}]`);

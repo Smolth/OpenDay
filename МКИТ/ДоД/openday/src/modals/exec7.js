@@ -10,7 +10,7 @@ while (i <= 5) {
 }`);
     const [outText, setOutText] = useState('');
     const [success, setSuccess] = useState(false);
-    const { completeQuest } = useQuest();
+    const { updateQuestStatus } = useQuest();
 
     const executeCode = useCallback((codeString) => {
         try {
@@ -41,7 +41,7 @@ while (i <= 5) {
             setOutText(result);
             if (result.includes(1)&&result.includes(2)&&result.includes(3)&&result.includes(4)&&result.includes(5)) {
                 setSuccess(true)
-                completeQuest("FindBug4")
+                updateQuestStatus("FindBug4")
             }
         } catch (error) {
             setOutText(`Ошибка: ${error.message}`);

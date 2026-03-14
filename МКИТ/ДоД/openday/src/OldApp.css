@@ -1,8 +1,7 @@
-/* Общие стили */
 .instructions {
   position: fixed;
   width: 30vw;
-  font-family: "montserrat", Arial, Helvetica, sans-serif;
+  font-family: "montserrat";
   font-weight: 600;
   text-align: center;
   top: 20vh;
@@ -11,9 +10,7 @@
   border: solid 3px #7ef1ef;
   border-radius: 10px;
   animation: glare linear 2s infinite;
-  background: rgba(0, 0, 0, 0.8);
   color: whitesmoke;
-  z-index: 500;
 }
 
 /* QuizModal.css */
@@ -160,6 +157,7 @@ canvas {
   background: #111;
 }
 
+
 .console-line {
   display: flex;
   flex-direction: row;
@@ -193,6 +191,7 @@ canvas {
   font-family: Arial, Helvetica, sans-serif;
 }
 
+
 #console {
   width: 400px;
   height: 200px;
@@ -206,18 +205,11 @@ canvas {
   margin: 20px;
 }
 
-/* Модальные окна */
 .find-secret-modal {
   max-width: 1200px !important;
   width: 95% !important;
 }
 
-.center-div-modal {
-  max-width: 1100px !important;
-  width: 95% !important;
-}
-
-/* Игровые контейнеры */
 .game-container {
   padding: 20px;
 }
@@ -238,7 +230,6 @@ canvas {
   min-height: 400px;
 }
 
-/* Системные элементы */
 .system-element {
   padding: 10px;
   background-color: #2d2d2d;
@@ -270,9 +261,11 @@ canvas {
   0% {
     box-shadow: 0 0 0 0 rgba(40, 167, 69, 0.7);
   }
+
   70% {
     box-shadow: 0 0 0 10px rgba(40, 167, 69, 0);
   }
+
   100% {
     box-shadow: 0 0 0 0 rgba(40, 167, 69, 0);
   }
@@ -295,7 +288,6 @@ canvas {
   margin-top: 3px;
 }
 
-/* Панель управления */
 .control-panel {
   flex: 1;
   background-color: #2d2d2d;
@@ -309,14 +301,6 @@ canvas {
   margin-bottom: 20px;
   color: #ffc107;
   text-align: center;
-}
-
-.control-panel h2 {
-  margin-top: 0;
-  margin-bottom: 25px;
-  color: #ffc107;
-  text-align: center;
-  font-size: 20px;
 }
 
 .control-group {
@@ -388,7 +372,6 @@ canvas {
   background-color: #c82333;
 }
 
-/* Футер игры */
 .game-footer {
   margin-top: 20px;
   padding: 15px;
@@ -448,7 +431,24 @@ canvas {
   background-color: #5a6268;
 }
 
-/* Плейграунд */
+@media (max-width: 768px) {
+  .game-play-area {
+    flex-direction: column;
+  }
+
+  .control-panel {
+    margin-top: 20px;
+  }
+}
+
+
+.center-div-modal {
+  max-width: 1100px !important;
+  width: 95% !important;
+}
+
+
+
 .playground-container {
   flex: 1.5;
   background-color: #1a1a1a;
@@ -522,10 +522,12 @@ canvas {
   0% {
     transform: scale(1);
   }
+
   50% {
     transform: scale(1.2);
     box-shadow: 0 20px 50px rgba(255, 215, 0, 0.5);
   }
+
   100% {
     transform: scale(1.1);
     border: 3px solid gold;
@@ -583,7 +585,14 @@ canvas {
   box-shadow: 0 0 20px gold;
 }
 
-/* Секции управления */
+.control-panel h2 {
+  margin-top: 0;
+  margin-bottom: 25px;
+  color: #ffc107;
+  text-align: center;
+  font-size: 20px;
+}
+
 .control-section {
   margin-bottom: 30px;
   padding: 15px;
@@ -653,7 +662,6 @@ canvas {
   font-size: 11px;
 }
 
-/* Слайдеры */
 .slider-container {
   padding: 10px 0;
 }
@@ -730,13 +738,6 @@ canvas {
 }
 
 /* Прогресс */
-.progress-info {
-  margin: 15px 0;
-  padding: 10px;
-  background: rgba(255, 255, 255, 0.1);
-  border-radius: 8px;
-}
-
 .progress-indicator {
   margin: 20px 0;
   padding: 15px;
@@ -771,475 +772,49 @@ canvas {
   font-weight: bold;
 }
 
-/* Сообщение о завершении */
-.completion-message {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  z-index: 10000;
-  animation: slideIn 0.5s ease;
+/* Подсказки */
+.hint-message {
+  padding: 12px;
+  background-color: #363636;
+  border-left: 4px solid #ffc107;
+  border-radius: 4px;
+  margin: 15px 0;
+  color: #ddd;
+  font-size: 14px;
 }
 
-.completion-content {
-  background: white;
-  padding: 30px;
-  border-radius: 15px;
-  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
-  text-align: center;
-  position: relative;
-  min-width: 300px;
+.hint-message.success {
+  border-left-color: #4caf50;
+  background-color: #1e3a2a;
+  color: #fff;
 }
 
-.completion-content h3 {
-  color: #4CAF50;
-  font-size: 24px;
-  margin-bottom: 10px;
-}
-
-.completion-content p {
-  font-size: 18px;
-  color: #333;
-}
-
-.completion-content button {
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  background: none;
-  border: none;
-  font-size: 20px;
-  cursor: pointer;
-  color: #999;
-}
-
-.completion-content button:hover {
-  color: #333;
-}
-
-@keyframes slideIn {
-  from {
-    opacity: 0;
-    transform: translate(-50%, -60%);
-  }
-  to {
-    opacity: 1;
-    transform: translate(-50%, -50%);
-  }
-}
-
-/* Карта */
-.Map {
-  background-image: url('./assets/map.svg');
-  height: 1080px;
+.reset-btn {
   width: 100%;
-  position: relative;
-  background-size: cover;
-  background-position: center;
-}
-
-/* Маркеры на карте */
-.quest-marker {
-  position: absolute;
-  transform: translate(-50%, -50%);
-  z-index: 2000;
-  transition: all 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-  pointer-events: none;
-  will-change: top, left;
-}
-
-.marker-square {
-  width: 60px;
-  height: 60px;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  border: 3px solid gold;
-  border-radius: 10px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  animation: float 3s ease-in-out infinite;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-}
-
-.marker-text {
-  font-size: 30px;
-  animation: bounce 2s ease-in-out infinite;
-}
-
-@keyframes bounce {
-  0%, 100% {
-    transform: translateY(0);
-  }
-  50% {
-    transform: translateY(-5px);
-  }
-}
-
-@keyframes float {
-  0%, 100% {
-    transform: translateY(0);
-  }
-  50% {
-    transform: translateY(-10px);
-  }
-}
-
-.quest-marker.boss-position .marker-square {
-  border-color: red;
-  background: linear-gradient(135deg, #ff6b6b 0%, #c92a2a 100%);
-  animation: bossPulse 1s infinite;
-}
-
-/* Галочка в квадрате */
-.checkmark {
-  font-size: 30px;
-  color: gold;
-  font-weight: bold;
-  animation: checkmarkAppear 0.5s ease-out;
-}
-
-@keyframes checkmarkAppear {
-  0% {
-    transform: scale(0) rotate(-180deg);
-    opacity: 0;
-  }
-  100% {
-    transform: scale(1) rotate(0);
-    opacity: 1;
-  }
-}
-
-/* Галочки на кнопках */
-.button-check {
-  position: absolute;
-  top: -5px;
-  right: -5px;
-  width: 25px;
-  height: 25px;
-  background-color: gold;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: green;
-  font-weight: bold;
-  font-size: 16px;
-  animation: checkmarkAppear 0.3s ease-out;
-  border: 2px solid white;
-  z-index: 1600;
-}
-
-/* Кнопки заданий */
-.bt-1, .bt-2, .bt-3, .bt-4, .bt-5, .bt-6, .bt-7, .bt-8, .bt-9 {
-  position: absolute;
-  width: 50px;
-  height: 50px;
-  background: linear-gradient(135deg, #4a90e2 0%, #357abd 100%);
+  padding: 12px;
+  background-color: #6c757d;
   color: white;
   border: none;
-  border-radius: 50%;
+  border-radius: 5px;
   cursor: pointer;
-  transition: all 0.3s;
-  font-size: 20px;
+  transition: all 0.2s;
   font-weight: bold;
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-  z-index: 100;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  opacity: 0.2;
-  border: 2px solid rgba(255, 255, 255, 0.5);
-  transform: translate(-50%, -50%);
+  margin-top: 10px;
 }
 
-.bt-1:hover:not(.disabled),
-.bt-2:hover:not(.disabled),
-.bt-3:hover:not(.disabled),
-.bt-4:hover:not(.disabled),
-.bt-5:hover:not(.disabled),
-.bt-6:hover:not(.disabled),
-.bt-7:hover:not(.disabled),
-.bt-8:hover:not(.disabled),
-.bt-9:hover:not(.disabled) {
-  transform: translate(-50%, -50%) scale(1.2);
-  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
-  opacity: 1;
+.reset-btn:hover:not(:disabled) {
+  background-color: #5a6268;
+  transform: translateY(-2px);
 }
 
-/* Стили для текущей цели */
-.current-target {
-  animation: targetPulse 1.5s infinite;
-  border: 3px solid gold !important;
-  box-shadow: 0 0 20px gold !important;
-  transform: translate(-50%, -50%) scale(1.1);
-  z-index: 2500 !important;
-  opacity: 1 !important;
-}
-
-@keyframes targetPulse {
-  0% {
-    box-shadow: 0 0 0 0 gold;
-  }
-  70% {
-    box-shadow: 0 0 20px 10px gold;
-  }
-  100% {
-    box-shadow: 0 0 0 0 gold;
-  }
-}
-
-@keyframes bossPulse {
-  0% {
-    transform: scale(1);
-    border-color: red;
-    box-shadow: 0 0 20px red;
-  }
-  50% {
-    transform: scale(1.2);
-    border-color: darkred;
-    box-shadow: 0 0 40px darkred;
-  }
-  100% {
-    transform: scale(1);
-    border-color: red;
-    box-shadow: 0 0 20px red;
-  }
-}
-
-/* Стили для заблокированных кнопок */
-.bt-1.disabled,
-.bt-2.disabled,
-.bt-3.disabled,
-.bt-4.disabled,
-.bt-5.disabled,
-.bt-6.disabled,
-.bt-7.disabled,
-.bt-8.disabled,
-.bt-9.disabled {
+.reset-btn:disabled {
   opacity: 0.5;
   cursor: not-allowed;
-  pointer-events: none;
-  filter: grayscale(100%);
 }
 
-/* Стартовая кнопка */
-.start-btn {
-  position: absolute;
-  width: 80px;
-  height: 80px;
-  border-radius: 50%;
-  background: linear-gradient(135deg, #f6d365 0%, #fda085 100%);
-  border: 4px solid gold;
-  color: white;
-  font-size: 40px;
-  font-weight: bold;
-  cursor: pointer;
-  animation: startPulse 2s infinite;
-  z-index: 1800;
-  box-shadow: 0 0 30px rgba(255, 215, 0, 0.5);
-  transition: all 0.3s;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transform: translate(-50%, -50%);
-}
-
-.start-btn:hover {
-  transform: translate(-50%, -50%) scale(1.1);
-  box-shadow: 0 0 50px rgba(255, 215, 0, 0.8);
-}
-
-@keyframes startPulse {
-  0% {
-    transform: translate(-50%, -50%) scale(1);
-    opacity: 0.8;
-  }
-  50% {
-    transform: translate(-50%, -50%) scale(1.1);
-    opacity: 1;
-  }
-  100% {
-    transform: translate(-50%, -50%) scale(1);
-    opacity: 0.8;
-  }
-}
-
-/* Стили для выбора пути */
-.path-selection-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: rgba(0, 0, 0, 0.9);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 3000;
-}
-
-.path-selection-modal {
-  background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
-  padding: 40px;
-  border-radius: 20px;
-  max-width: 800px;
-  width: 90%;
-  color: white;
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
-  border: 2px solid gold;
-}
-
-.path-selection-modal h2 {
-  text-align: center;
-  margin-bottom: 30px;
-  font-size: 28px;
-  color: gold;
-  text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
-}
-
-.path-buttons {
-  display: flex;
-  gap: 30px;
-  margin-bottom: 30px;
-}
-
-.path-btn {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 30px 20px;
-  background: rgba(255, 255, 255, 0.1);
-  border: 2px solid rgba(255, 255, 255, 0.2);
-  border-radius: 15px;
-  cursor: pointer;
-  transition: all 0.3s;
-  color: white;
-  backdrop-filter: blur(10px);
-}
-
-.path-btn:hover {
-  transform: translateY(-10px);
-  border-color: gold;
-  box-shadow: 0 10px 30px rgba(255, 215, 0, 0.3);
-  background: rgba(255, 255, 255, 0.2);
-}
-
-.path-btn.path1:hover {
-  border-color: #ff6b6b;
-}
-
-.path-btn.path2:hover {
-  border-color: #4ecdc4;
-}
-
-.path-icon {
-  font-size: 64px;
-  margin-bottom: 20px;
-}
-
-.path-info {
-  text-align: center;
-}
-
-.path-info h3 {
-  font-size: 20px;
-  margin-bottom: 10px;
-  color: gold;
-}
-
-.path-info p {
-  margin-bottom: 10px;
-  font-size: 14px;
-  opacity: 0.9;
-}
-
-.path-info small {
-  opacity: 0.7;
-  font-style: italic;
-}
-
-.reset-path-btn {
-  width: 100%;
-  padding: 15px;
-  background: rgba(220, 53, 69, 0.8);
-  color: white;
-  border: none;
-  border-radius: 10px;
-  cursor: pointer;
-  font-size: 16px;
-  font-weight: bold;
-  transition: all 0.3s;
-  border: 1px solid rgba(255, 255, 255, 0.3);
-}
-
-.reset-path-btn:hover {
-  background: rgb(220, 53, 69);
-  transform: scale(1.02);
-}
-
-/* Информация о пути */
-.path-info-display {
-  margin-top: 20px;
-  padding: 15px;
-  background: rgba(255, 255, 255, 0.1);
-  border-radius: 10px;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  border: 1px solid gold;
-}
-
-.path-info-display p {
-  margin: 0;
-  color: gold;
-  font-weight: bold;
-  font-size: 16px;
-}
-
-.reset-path-small {
-  padding: 8px 15px;
-  background: rgba(220, 53, 69, 0.8);
-  color: white;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  font-size: 14px;
-  transition: all 0.3s;
-  font-weight: bold;
-}
-
-.reset-path-small:hover {
-  background: rgb(220, 53, 69);
-  transform: scale(1.05);
-}
-
-/* Счетчик элементов */
-.items-counter {
-  margin-top: 20px;
-  padding: 10px;
-  background: rgba(255,255,255,0.1);
-  border-radius: 5px;
-  color: white;
-  text-align: center;
-  font-size: 16px;
-}
-
-/* Placeholder для пустых ячеек */
-.item.placeholder {
-  background-color: rgba(101,101,101,0.3);
-  border: 2px dashed #666;
-  cursor: default;
-}
-
-/* Адаптация под мобильные */
 @media (max-width: 768px) {
   .game-play-area {
     flex-direction: column;
-  }
-
-  .control-panel {
-    margin-top: 20px;
   }
 
   .button-group {
@@ -1254,33 +829,142 @@ canvas {
     flex-wrap: wrap;
     gap: 5px;
   }
+}
 
-  .path-buttons {
-    flex-direction: column;
+  .Map {
+    background-image: url('./assets/map.svg');
+    display: flex;
+    height: 1080px;
+    width: 100%;
   }
-  
-  .path-selection-modal {
-    padding: 20px;
+
+
+  .quest-marker {
+    position: absolute;
+    transform: translate(-50%, -50%);
+    z-index: 1000;
+    transition: all 0.5s ease-in-out;
+    pointer-events: none;
   }
-  
-  .start-btn {
-    width: 60px;
-    height: 60px;
-    font-size: 30px;
-  }
-  
+
   .marker-square {
     width: 50px;
     height: 50px;
+    background-color: rgba(255, 215, 0, 0.3);
+    border: 3px solid gold;
+    border-radius: 10px;
+    display: flex;
+    margin-left: 40px;
+    align-items: center;
+    justify-content: center;
+    animation: pulse 2s infinite;
   }
-  
-  .marker-text {
-    font-size: 24px;
+
+  .quest-marker.boss-position .marker-square {
+    border-color: red;
+    background-color: rgba(255, 0, 0, 0.2);
+    animation: bossPulse 1s infinite;
   }
-  
-  .bt-1, .bt-2, .bt-3, .bt-4, .bt-5, .bt-6, .bt-7, .bt-8, .bt-9 {
-    width: 40px;
-    height: 40px;
+
+  @keyframes pulse {
+    0% {
+      transform: scale(1);
+      opacity: 0.8;
+    }
+
+    50% {
+      transform: scale(1.1);
+      opacity: 1;
+    }
+
+    100% {
+      transform: scale(1);
+      opacity: 0.8;
+    }
+  }
+
+  @keyframes bossPulse {
+    0% {
+      transform: scale(1);
+      border-color: red;
+    }
+
+    50% {
+      transform: scale(1.2);
+      border-color: darkred;
+    }
+
+    100% {
+      transform: scale(1);
+      border-color: red;
+    }
+  }
+
+  /* Стили для галочки в квадрате */
+  .checkmark {
+    font-size: 30px;
+    color: gold;
+    font-weight: bold;
+    animation: checkmarkAppear 0.5s ease-out;
+  }
+
+  @keyframes checkmarkAppear {
+    0% {
+      transform: scale(0) rotate(-180deg);
+      opacity: 0;
+    }
+
+    100% {
+      transform: scale(1) rotate(0);
+      opacity: 1;
+    }
+  }
+
+  /* Стили для галочек на кнопках */
+  .button-check {
+    position: absolute;
+    top: -10px;
+    right: -10px;
+    width: 25px;
+    height: 25px;
+    background-color: gold;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: green;
+    font-weight: bold;
     font-size: 16px;
+    animation: checkmarkAppear 0.3s ease-out;
   }
-}
+
+  .bt-1,
+  .bt-2,
+  .bt-3,
+  .bt-4,
+  .bt-5 {
+    position: absolute;
+    padding: 10px 20px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    height: 40px;
+    width: 40px;
+    border-radius: 100%;
+    cursor: pointer;
+    transition: all 0.3s;
+    opacity: 0.2;
+    z-index: 100;
+  }
+
+
+
+  /* Стили для заблокированных кнопок (можно добавить позже) */
+  .bt-1.disabled,
+  .bt-2.disabled,
+  .bt-3.disabled,
+  .bt-4.disabled,
+  .bt-5.disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
