@@ -1,7 +1,7 @@
+
 import { useState, useEffect, useRef, useCallback } from 'react';
 import '../Alchemy.css';
 import { useQuest } from '../context/QuestContext';
-
 
 const Alchemy = ({ isOpen, onClose }) => {
     const [recipes, setRecipes] = useState({
@@ -18,7 +18,11 @@ const Alchemy = ({ isOpen, onClose }) => {
         "сеть,сервер": "Интернет",
         "приложение,бэкенд": "API",
         "интернет-магазин,сеть": "Маркетплейс",
+        "приложение,сеть": "Игра",
+        "приложение,стиль": "Илюстраторр",
+        "api,бэкенд": "БазаДанных",
     });
+    
     const [itemImages, setItemImages] = useState({
         "код": "/images/код.svg",
         "дизайн": "/images/дизайн.svg",
@@ -36,11 +40,15 @@ const Alchemy = ({ isOpen, onClose }) => {
         "интернет": "/images/интернет.svg",
         "api": "/images/API.svg",
         "маркетплейс": "/images/маркетплейс.svg",
+        "игра": "/images/игра.svg",
+        "илюстраторр": "/images/илюстраторр.svg",
+        "базаданных": "/images/базаданных.svg",
     });
+
     const allPossibleItems = [
         'код', 'дизайн', 'сервер', 'сайт', 'бэкенд', 'дашборд',
         'софт', 'стиль', 'сеть', 'интернет-магазин', 'приложение',
-        'облако', 'синхронизация', 'интернет', 'api', 'маркетплейс'
+        'облако', 'синхронизация', 'интернет', 'api', 'маркетплейс','базаданных','илюстраторр','игра'
     ];
 
     const [availableItems, setAvailableItems] = useState(['код', 'дизайн', 'сервер']);
@@ -67,14 +75,13 @@ const Alchemy = ({ isOpen, onClose }) => {
         }
     }, [availableItems, allPossibleItems, showCompletionMessage]);
 
-    // Функция для нормализации имени (в нижний регистр)
+    // Функция для нормализации имени (приведение к нижнему регистру)
     const normalizeName = (name) => {
         return name.toLowerCase();
     };
 
     // Функция для отображения имени с правильным регистром
     const displayName = (name) => {
-        // Специальные случаи для отображения
         const displayMap = {
             'api': 'API',
             'интернет-магазин': 'Интернет-магазин',
@@ -90,10 +97,9 @@ const Alchemy = ({ isOpen, onClose }) => {
         }
     }, [availableItems]);
 
-
     // Создание предмета на поле
     const createFieldItem = useCallback((itemId, position = { x: 0, y: 0 }) => {
-        const normalizedId = itemId.toLowerCase(); // Приводим к нижнему регистру
+        const normalizedId = normalizeName(itemId); // Приводим к нижнему регистру
         const itemName = displayName(normalizedId); // Для отображения используем displayName
 
         const newItem = {
@@ -308,8 +314,7 @@ const Alchemy = ({ isOpen, onClose }) => {
                                         alt={displayName(item)}
                                         onError={(e) => {
                                             console.log('Ошибка загрузки:', item, e.target.src);
-                                            // Временно устанавливаем заглушку
-                                            e.target.style.backgroundColor = '#ccc';
+                                            e.target.style.backgroundColor = '#ccc'; // Устанавливаем серый фон
                                         }}
                                     />
                                 </div>
@@ -325,8 +330,7 @@ const Alchemy = ({ isOpen, onClose }) => {
                         onDragOver={handleDragOver}
                     >
                         {fieldItems.map((item) => {
-                            // Приводим тип к нижнему регистру для поиска в itemImages
-                            const imageKey = item.type?.toLowerCase() || item.type;
+                            const imgSrc = itemImages[item.type]; // Поиск изображения по типу
 
                             return (
                                 <div
@@ -345,14 +349,12 @@ const Alchemy = ({ isOpen, onClose }) => {
                                 >
                                     <img
                                         className="item_picture"
-                                        src={itemImages[imageKey]}
+                                        src={imgSrc}
                                         alt={item.name}
                                         onError={(e) => {
-                                            console.log('Ошибка загрузки в поле:', item.type, imageKey, e.target.src);
-                                            console.log('Доступные ключи:', Object.keys(itemImages));
-                                            e.target.style.backgroundColor = '#ccc';
+                                            console.log('Ошибка загрузки в поле:', item.type, imgSrc, e.target.src);
+                                            e.target.style.backgroundColor = '#ccc'; // Изменили стиль на случай ошибки
                                         }}
-                                        onLoad={() => console.log('Успешно загружено в поле:', item.type)}
                                     />
                                     <h3 className="nameItem">{item.name}</h3>
                                 </div>
@@ -363,7 +365,7 @@ const Alchemy = ({ isOpen, onClose }) => {
                             ref={basketRef}
                             id="basket"
                             src="/images/корзина.svg"
-                            alt="корзина"
+                            alt="Корзина"
                             onError={(e) => {
                                 console.log('Ошибка загрузки корзины');
                                 e.target.style.display = 'none';

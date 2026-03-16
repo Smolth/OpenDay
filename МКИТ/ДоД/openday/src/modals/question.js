@@ -4,7 +4,7 @@ import { useQuest } from '../context/QuestContext';
 const QuestionModal = ({ isOpen, onClose, question, options, correctAnswer }) => {
   const [selectedOption, setSelectedOption] = useState(null);
   const [showError, setShowError] = useState(false);
-  const { completeQuest } = useQuest();
+  const { updateQuestStatus } = useQuest();
 
   if (!isOpen) return null;
 
@@ -20,7 +20,7 @@ const QuestionModal = ({ isOpen, onClose, question, options, correctAnswer }) =>
     }
 
     if (selectedOption === correctAnswer) {
-      completeQuest('question');
+      updateQuestStatus('question1', true);
       setSelectedOption(null);
       setShowError(false);
       onClose();

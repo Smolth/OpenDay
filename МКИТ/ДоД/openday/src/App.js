@@ -15,7 +15,6 @@ import FindBug4 from './modals/exec7';
 function MapWithQuest() {
   const { completedQuests, updateQuestStatus, resetProgress } = useQuest(); // Добавляем updateQuestStatus
 
-  // Состояния для модалок
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isTestOpen, setIsTestOpen] = useState(false);
   const [isTest2Open, setIsTest2Open] = useState(false);
@@ -25,6 +24,7 @@ function MapWithQuest() {
   const [isTest6Open, setIsTest6Open] = useState(false);
   const [isTest7Open, setIsTest7Open] = useState(false);
   const [isBossOpen, setIsBossOpen] = useState(false);
+  const [isBattleOpen, setIsBattleOpen] = useState(false);
 
   const [showPathSelection, setShowPathSelection] = useState(false);
   const [selectedPath, setSelectedPath] = useState(null);
@@ -43,7 +43,7 @@ function MapWithQuest() {
     { top: '390px', left: '888px' },   // findBug1 (индекс 5)
     { top: '520px', left: '1175px' },   // findBug2 (индекс 6)
     { top: '665px', left: '1225px' },   // findBug3 (индекс 7)
-    { top: '927px', left: '1150px' }    // findBug4 (индекс 8)
+    { top: '927px', left: '1150px' }    // alchemy (индекс 8)
   ], []);
 
   // Определяем пути
@@ -62,7 +62,7 @@ function MapWithQuest() {
     'findBug1',     // индекс 5
     'findBug2',     // индекс 6
     'findBug3',     // индекс 7
-    'findBug4'      // индекс 8
+    'alchemy'      // индекс 8
   ], []);
 
   // Маппинг для открытия модалок
@@ -81,7 +81,6 @@ function MapWithQuest() {
     }
   };
 
-  // При выборе пути
   const handlePathSelect = (path) => {
     console.log('🟢 Выбран путь:', path);
     setSelectedPath(path);
@@ -92,7 +91,6 @@ function MapWithQuest() {
     setCurrentPosition(firstQuestIndex);
   };
 
-  // Обновление позиции при выполнении заданий
   useEffect(() => {
     if (!selectedPath) {
       if (currentPosition !== 0) {
@@ -105,7 +103,6 @@ function MapWithQuest() {
     let nextPosition = null;
     let foundIncomplete = false;
 
-    // Ищем первое невыполненное задание
     for (let i = 0; i < currentPath.length; i++) {
       const questIndex = currentPath[i];
       const questName = questNames[questIndex];
@@ -204,7 +201,6 @@ function MapWithQuest() {
 
   return (
     <div className="Map">
-      {/* Маркер */}
       <div
         className={`quest-marker ${currentPosition === 4 ? 'boss-position' : ''}`}
         style={{
@@ -218,7 +214,6 @@ function MapWithQuest() {
         </div>
       </div>
 
-      {/* Меню выбора пути */}
       {showPathSelection && !selectedPath && (
         <div className="path-selection-overlay">
           <div className="path-selection-modal">
@@ -251,7 +246,6 @@ function MapWithQuest() {
         </div>
       )}
 
-      {/* Кнопка старта */}
       {!selectedPath && (
         <button
           className="start-btn"
@@ -266,13 +260,14 @@ function MapWithQuest() {
         </button>
       )}
 
-      {/* Инструкция */}
       <div className='instructions'>
         <h1 style={{ color: "rgb(235, 205, 98)" }}>Инструкция</h1>
+        <br />
         <p>Приветствуем тебя!</p>
+        <br />
         <p>Сегодня мы предлагаем сыграть в небольшую игру, которая поверхностно погружает в повседневные суету из задач и проблем разработчика.</p>
         <p>Вы знаете, что такое сетевой пакет? Это набор данных, передаваемый по сети, от одной точки в другую - от соседа к соседа и от компютера к смартфону.</p>
-        <p>Для того, чтобы переача данных прошла успешно от отправителя к адресату, нужно правильно настроить для него маршрут. Перед вами карта. Сопроводите пакет от точки "А" к точке "Б", пройдя все заботы и проблемы.</p>
+        <p>Для того, чтобы передача данных прошла успешно от отправителя к адресату, нужно правильно настроить для него маршрут. Перед вами карта. Сопроводите пакет от точки "А" к точке "Б", пройдя все заботы и проблемы.</p>
         {selectedPath && (
           <div className="path-info-display">
             <p>Выбран путь: {selectedPath === 'path1' ? 'Путь разработчика' : 'Основной путь'}</p>
@@ -286,7 +281,6 @@ function MapWithQuest() {
         )}
       </div>
 
-      {/* Кнопки заданий */}
       <button
         className={`bt-1 ${!isButtonAvailable(0) ? 'disabled' : ''} ${isCurrentTarget(0) ? 'current-target' : ''}`}
         onClick={() => isButtonAvailable(0) && openModalByIndex(0)}
@@ -434,7 +428,6 @@ function MapWithQuest() {
         onComplete={() => updateQuestStatus('findBug4', true)}
       />
 
-      {/* Кнопка сброса */}
       <button
         style={{
           position: 'fixed',
@@ -467,7 +460,7 @@ function MapWithQuest() {
           }
         }}
       >
-        🔄 Сбросить прогресс
+        Сбросить прогресс
       </button>
     </div>
   );
