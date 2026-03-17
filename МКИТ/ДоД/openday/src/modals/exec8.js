@@ -295,6 +295,7 @@ const Alchemy = ({ isOpen, onClose }) => {
                     <div className="completion-message">
                         <div className="completion-content">
                             <p>Вы собрали все необходимые элементы!</p>
+                            <button className='submit' onClick={onClose}>Завершить</button>
                         </div>
                     </div>
                 )}
