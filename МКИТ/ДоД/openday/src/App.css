@@ -842,7 +842,7 @@ canvas {
 .quest-marker {
   position: absolute;
   transform: translate(-50%, -50%);
-  z-index: 2000;
+  z-index: 50;
   transition: all 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55);
   pointer-events: none;
   will-change: top, left;
@@ -943,7 +943,7 @@ canvas {
   font-size: 20px;
   font-weight: bold;
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-  z-index: 100;
+  z-index: 3;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -972,7 +972,7 @@ canvas {
   border: 3px solid gold !important;
   box-shadow: 0 0 20px gold !important;
   transform: translate(-50%, -50%) scale(1.1);
-  z-index: 2500 !important;
+  z-index: 100 !important;
   opacity: 1 !important;
 }
 
@@ -1075,7 +1075,7 @@ canvas {
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 3000;
+  z-index: 1000;
 }
 
 .path-selection-modal {

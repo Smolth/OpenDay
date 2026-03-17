@@ -11,6 +11,7 @@ import FindBug from './modals/exec4';
 import FindBug2 from './modals/exec5';
 import FindBug3 from './modals/exec6';
 import FindBug4 from './modals/exec7';
+import Alchemy from './modals/exec8';
 
 function MapWithQuest() {
   const { completedQuests, updateQuestStatus, resetProgress } = useQuest(); // Добавляем updateQuestStatus
@@ -350,18 +351,18 @@ function MapWithQuest() {
 
       <button
         className={`bt-5 ${!isButtonAvailable(4) ? 'disabled' : ''} ${isCurrentTarget(4) ? 'current-target' : ''}`}
-        onClick={() => isButtonAvailable(4) && openModalByIndex(4)}
+        onClick={() => isButtonAvailable(4) && openModalByIndex(8)}
         style={{ position: 'absolute', ...buttonPositions[4] }}
         disabled={!isButtonAvailable(4)}
       >
         👾
-        {completedQuests.boss && <span className="button-check">✓</span>}
+        {completedQuests.alchemy && <span className="button-check">✓</span>}
       </button>
 
-      <Boss
-        isOpen={isBossOpen}
-        onClose={() => setIsBossOpen(false)}
-        onComplete={() => updateQuestStatus('boss', true)}
+      <Alchemy
+        isOpen={isTest7Open}
+        onClose={() => setIsTest7Open(false)}
+        onComplete={() => updateQuestStatus('alchemy', true)}
       />
 
       <button
@@ -414,18 +415,18 @@ function MapWithQuest() {
 
       <button
         className={`bt-9 ${!isButtonAvailable(8) ? 'disabled' : ''} ${isCurrentTarget(8) ? 'current-target' : ''}`}
-        onClick={() => isButtonAvailable(8) && openModalByIndex(8)}
+        onClick={() => isButtonAvailable(8) && openModalByIndex(4)}
         style={{ position: 'absolute', ...buttonPositions[8] }}
         disabled={!isButtonAvailable(8)}
       >
         🐛
-        {completedQuests.findBug4 && <span className="button-check">✓</span>}
+        {completedQuests.boss && <span className="button-check">✓</span>}
       </button>
 
-      <FindBug4
-        isOpen={isTest7Open}
-        onClose={() => setIsTest7Open(false)}
-        onComplete={() => updateQuestStatus('findBug4', true)}
+      <Boss
+        isOpen={isBossOpen}
+        onClose={() => setIsBossOpen(false)}
+        onComplete={() => updateQuestStatus('boss', true)}
       />
 
       <button

@@ -301,7 +301,7 @@ const FindSecretModal = ({ isOpen, onClose }) => {
                     <div className="game-footer">
                         <div className="game-stats">
                             <span className="info-message">Попыток: {attempts}</span>
-                            {found && <span className="victory">🎉 Ключ найден! Задание выполнено! 🎉</span>}
+                            {found && <span className="victory">Ключ найден! Задание выполнено!</span>}
                         </div>
 
                         <div className="game-controls">

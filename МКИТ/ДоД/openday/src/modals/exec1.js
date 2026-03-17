@@ -116,11 +116,11 @@ const TypeText = ({ isOpen, onClose }) => {
                 }
             } else {
                 // Переход к следующему заданию
-                setResult("Отлично! Переходим к следующему заданию");
+                setResult("Отлично! Переходим к следующему этапу'");
                 setCurrentTaskIndex(prev => prev + 1);
                 setTaskStarted(false);
                 setText('');
-                setButtonText("Следующее задание");
+                setButtonText("Дальше");
                 if (timeInterval) {
                     clearInterval(timeInterval);
                     setTimeInterval(null);
@@ -198,7 +198,7 @@ const TypeText = ({ isOpen, onClose }) => {
 
                 <button
                     className="submit-button"
-                    onClick={startTask}
+                    onClick={buttonText === "Задание выполнено!" ? handleClose : startTask}
                     disabled={taskStarted && currentTaskIndex < allText.length}
                 >
                     {buttonText}
